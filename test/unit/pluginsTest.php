@@ -21,9 +21,13 @@ $wanted_dirs = array('config', 'lib', 'modules');
 // Unless it's one of these plugins
 $exclude_plugins = array('sfPluginsTestPlugin');
 
-// FIXME Should only work with Symfony 1.0
-$plugdir = SF_ROOT_DIR.DIRECTORY_SEPARATOR.'plugins';
+$plugdir = defined('SF_ROOT_DIR') ? SF_ROOT_DIR.DIRECTORY_SEPARATOR.'plugins' : sfConfig::get('sf_root_dir').DIRECTORY_SEPARATOR.'plugins';
 $plugins = opendir($plugdir);
+if (!$plugins)
+{
+  $t->fail('Unable to open the plugins directory');
+  exit();
+}
 
 // Errors
 $fail = array();
